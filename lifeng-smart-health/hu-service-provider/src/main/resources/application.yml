@@ -1,0 +1,77 @@
+server:
+  port: 8999
+spring:
+  freemarker:
+    allow-request-override: false
+    cache: false
+    check-template-location: true
+    charset: UTF-8
+    content-type: text/html
+    expose-request-attributes: false
+    expose-session-attributes: false
+    suffix: .ftl
+    templateEncoding: UTF-8
+    templateLoaderPath: classpath:/templates/
+  application:
+    name: sh-service-provider
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/22_7_25_dubbodemo1
+    username: root
+    password: root
+    druid:
+      db-type: mysql
+      initial-size: 5
+      max-active: 10
+      min-idle: 1
+      max-wait: 60000
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+    servlet:
+      multipart:
+        max-file-size: 1023MB
+        max-request-size: 1024MB
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: redis
+    timeout: 3000
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+dubbo:
+  application:
+    name: dubbo-sh-provider
+  protocol:
+    name: dubbo
+    port: 20881
+  registry:
+    protocol: zookeeper
+    address: localhost:2181
+    #    address: 106.55.16.89:2181
+    timeout: 20000
+    file: ./dubbo-cache-provide-sh
+  version: 1.0.0
+  scan:
+    base-packages: com.huhuhux.sh.provider
+# MyBatis-Plus
+mybatis-plus:
+  # 实体类路径
+  type-aliases-package: com.rushuni.sh.common.domain
+  configuration:
+    # 驼峰转换
+    map-underscore-to-camel-case: true
+    # 是否开启缓存
+    cache-enabled: false
+    # 打印sql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+out-put-path: D:\myFile\dubbo\lifeng-smart-health\lifeng-smart-health\hu-service-provider\src\main\resources\templates

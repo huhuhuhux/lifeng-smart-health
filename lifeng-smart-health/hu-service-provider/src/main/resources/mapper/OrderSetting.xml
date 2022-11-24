@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huhuhux.mapper.OrderSettingMapper">
+
+    <select id="selectCountByDate" resultType="long">
+        select count(id)
+        from t_ordersetting
+        where orderDate = #{orderDate, jdbcType=DATE}
+    </select>
+
+    <insert id="add">
+        insert into t_ordersetting
+            (orderDate, number, reservations)
+        values (#{orderDate}, #{number}, #{reservations})
+    </insert>
+
+    <update id="updateNumberByDate">
+        update t_ordersetting set number = #{number} where orderDate = #{orderDate, jdbcType=DATE}
+    </update>
+
+    <select id="selectByMonth" resultType="com.huhuhux.doman.OrderSetting">
+        select *
+        from t_ordersetting
+        where orderDate between #{begin} and #{end}
+    </select>
+
+    <update id="updateNumberByDate" parameterType="com.huhuhux.doman.OrderSetting">
+        update t_ordersetting set reservations = #{reservations} where orderDate = #{orderDate}
+    </update>
+
+    <select id="selectByDate" resultType="com.huhuhux.doman.OrderSetting">
+        select * from t_ordersetting WHERE orderDate =#{reverseDate, jdbcType=DATE}
+    </select>
+
+    <update id="update" parameterType="com.huhuhux.doman.OrderSetting">
+        update t_ordersetting set reservations = #{reservations} where orderDate = #{orderDate}
+    </update>
+
+</mapper>

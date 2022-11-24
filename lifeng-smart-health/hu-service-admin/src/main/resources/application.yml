@@ -1,0 +1,49 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: sh-service-admin
+  mvc:
+    static-path-pattern: static/**
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssm?serverTimezone=UTC
+    username: root
+    password: root
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: redis
+    timeout: 3000
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+dubbo:
+  application:
+    name: dubbo-consumer-admin
+    enable-file-cache: false
+  registry:
+    protocol: zookeeper
+    address: localhost:2181
+    timeout: 60000
+    file: ./dubbo-cache-consumer-admin
+  version: 1.0.0
+  scan:
+    base-packages: com.huhuhux.sh.admin
+mybatis-plus:
+  # xml文件路径
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类路径
+  type-aliases-package: com.huhuhux.shcommon.demain
+  configuration:
+    # 驼峰转换
+    map-underscore-to-camel-case: true
+    # 是否开启缓存
+    cache-enabled: false
+    # 打印sql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/img/asset-favico.ico">
+
+    <!--elementui组件库-->
+    <link rel="stylesheet" href="../static/plugins/elementui/index.css">
+    <link rel="stylesheet" href="../static/plugins/font-awesome/css/font-awesome.min.css">
+
+    <title>预约</title>
+    <link rel="stylesheet" href="../static/css/page-health-order.css"/>
+</head>
+
+<body class="hold-transition" data-spy="scroll" data-target="#myNavbar" data-offset="150">
+<div id="app">
+    <ol>
+        <li v-for="site in List">
+
+            <div>
+                {{ site.id }}
+            </div>
+        </li>
+    </ol>
+    <div>
+        {{ message }}
+    </div>
+
+    <!-- 页面头部 -->
+    <div class="top-header">
+        <span class="f-left"><i class="icon-back" onclick="history.go(-1)"></i></span>
+        <span class="center">砺锋健康</span>
+        <span class="f-right"><i class="icon-more"></i></span>
+    </div>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+        <div class="list-column1">
+            <!-- 展示套餐信息 -->
+            <!--<ul class="list">-->
+                <ul  class="list" v-infinite-scroll="load" style="overflow:auto">
+                    <li v-for="setmealin in sites" class="list-item">
+                    <!--<li class="list-item" v-for="setmeal in setmealList">-->
+                        <a class="link-page" href="setmeal_detail_5.html">
+                            <img class="img-object f-left"
+                                 src="http://qztvx74nt.hn-bkt.clouddn.com/08b7934d-432f-4050-afe8-8d6cc01845e7a.jpg"
+                                 alt="">
+                            <div class="item-body">
+                                <h4 class="ellipsis item-title">{{ setmeal.name }}</h4>
+                                <p class="ellipsis-more item-desc">{{ setmeal.name }}</p>
+                                <p class="item-keywords">
+                          <!--<span>
+                                {{ setmeal.remark == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女' }}
+                                </span>-->
+                                    <span>{{ setmeal.name }}</span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<!-- 页面 css js -->
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script src="../static/js/vue.js"></script>
+<script src="../static/plugins/elementui/index.js"></script>
+<script src="../static/js/axios-0.18.0.js"></script>
+<!--<script src="../js/page-health-order.js"></script>-->
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+            // 模型数据，用于套餐列表展示
+            List: {},
+            message :"hello Vue",
+            sites: [
+                {
+                    name: 'Runoob',
+                    age: 'Google'
+                },
+                {
+                    name: 'Runoob',
+                    age: 'Google'
+                },
+                {
+                    name: 'Taobao' ,
+                    age: 'Google'
+                },
+            ]
+        },
+        created() {
+            // 获取套餐列表数据
+            this.findPage();
+        },
+        methods: {
+            findPage() {
+                var param = {
+                    currentPage: 1,//页码
+                    pageSize: 5,//每页显示的记录数
+                };
+                axios.post("/setmeal/getAllSetmeal.do",param).then((res) => {
+                    if(res.data.flag){
+                        this.List = res.data.data.records ;
+                        console.log(this.List);
+                        console.log(this.sites);
+                    }else{
+                        this.$message.error(res.data.message);
+                    }
+                });
+            },
+        }
+    });
+</script>

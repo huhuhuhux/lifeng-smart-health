@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huhuhux.mapper.CheckGroupMapper">
+    <select id="selectPage" resultType="com.huhuhux.doman.CheckGroup">
+        select * from t_checkgroup
+    </select>
+
+    <insert id="setCheckGroupAndCheckItem" parameterType="hashmap">
+        insert into t_checkgroup_checkitem (checkgroup_id , checkitem_id)
+        values (#{checkgroup_id} ,#{checkitem_id})
+    </insert>
+
+    <insert id="save" parameterType="com.huhuhux.doman.CheckGroup">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_checkgroup(code, name, sex, helpCode, remark, attention)
+        values (#{code}, #{name}, #{sex}, #{helpCode}, #{remark}, #{attention})
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.huhuhux.doman.CheckGroup">
+        SELECT * FROM t_checkgroup where id=#{id}
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" resultType="java.lang.Integer">
+        SELECT checkitem_id from  t_checkgroup_checkitem where checkgroup_id= #{id}
+    </select>
+
+    <delete id="deleteAssociation" parameterType="java.lang.Integer">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+    <update id="upData"  parameterType="com.huhuhux.doman.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from t_checkgroup where id=#{id}
+    </delete>
+</mapper>
